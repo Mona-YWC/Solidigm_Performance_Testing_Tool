@@ -8,4 +8,8 @@ Random Read/Write IOPS
 (2) Random Read: 4KB/16KB
 (3) Random Read 70% Write 30% 4KB/16KB 
 
-Sequence Read/Write (MB/s): QD=256 note: QD32* Workers8 ; numjobs=1 ; Squence Read=128KB ;  Squence Wrtie=128KB
+Sequence Read/Write (MB/s): 
+(1) QD=256 note: QD32* Workers8 
+(2) numjobs=1 
+(3) Squence Read=1
+(4) Squence Wrtie=128KB
