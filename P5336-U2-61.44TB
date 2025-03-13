@@ -24,14 +24,14 @@ Sequence Read/Write (MB/s):
 
 
 *Test Case Definition:
-    "P5336-U2": [
+        "P5336-U2": [
         {"name": "128KB_Seq_Write","rw": "write","bs": "128k","iodepth": 32,"numjobs": 8,"precondition": true},
         {"name": "128KB_Seq_Read","rw": "read","bs": "128k","iodepth": 32,"numjobs": 8},
-        {"name": "16KB_Random_Write","rw": "randwrite","bs": "16k","iodepth": 64,"numjobs": 4,"precondition": true},
-        {"name": "16KB_RandRW_70R_30W","rw": "randrw","bs": "16k","iodepth": 64,"numjobs": 4,"rwmixread": 70,"precondition": true}
-        {"name": "16KB_Random_Read","rw": "randread","bs": "16k","iodepth": 64,"numjobs": 4},
-        {"name": "4KB_Random_Write","rw": "randwrite","bs": "4k","iodepth": 64,"numjobs": 4,"precondition": true},
-        {"name": "4KB_Random_Read","rw": "randread","bs": "4k","iodepth": 64,"numjobs": 4},
-        {"name": "4KB_RandRW_70R_30W","rw": "randrw","bs": "4k","iodepth": 64,"numjobs": 4,"rwmixread": 70,"precondition": true},
+        {"name": "16KB_Random_Write","rw": "randwrite","bs": "16k","iodepth": 32,"numjobs": 8,"precondition": true},
+        {"name": "16KB_RandRW_70R_30W","rw": "randrw","bs": "16k","iodepth": 32,"numjobs": 8,"rwmixread": 70,"precondition": true},
+        {"name": "16KB_Random_Read","rw": "randread","bs": "16k","iodepth": 32,"numjobs": 8},
+        {"name": "4KB_Random_Write","rw": "randwrite","bs": "4k","iodepth": 32,"numjobs": 8,"precondition": true},
+        {"name": "4KB_Random_Read","rw": "randread","bs": "4k","iodepth": 32,"numjobs": 8},
+        {"name": "4KB_RandRW_70R_30W","rw": "randrw","bs": "4k","iodepth": 32,"numjobs": 8,"rwmixread": 70,"precondition": true}
         
     ]
