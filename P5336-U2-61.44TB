@@ -12,9 +12,9 @@ Set up the FIO test conditions for P5336-U2-61.44TB PCIe 4.0
     (2) Perform Sequential Write (128KB block size, Queue Depth 256, 1x capacity)
 
 Random Read/Write IOPS
-(1) Random Write: 4KB/16KB
-(2) Random Read: 4KB/16KB
-(3) Random Read 70% Write 30% 4KB/16KB 
+(1) Random Write: 4KB & 16KB
+(2) Random Read: 4KB & 16KB
+(3) Random Read 70% Write 30% 4KB & 16KB 
 
 Sequence Read/Write (MB/s): 
 (1) QD=256 note: QD32* Workers8 
