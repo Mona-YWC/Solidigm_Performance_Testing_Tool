@@ -22,7 +22,7 @@ Sequence Read/Write (MB/s):
 (3) Squence Read=1
 (4) Squence Wrtie=128KB
 
-
+*The SPEC mentions that each profile test runs for 900 seconds.
 *Test Case Definition:
         "P5336-U2": [
         {"name": "128KB_Seq_Write","rw": "write","bs": "128k","iodepth": 32,"numjobs": 8,"precondition": true},
