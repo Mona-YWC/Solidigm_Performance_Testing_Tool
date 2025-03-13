@@ -1,7 +1,15 @@
 Set up the FIO test conditions for P5336-U2-61.44TB PCIe 4.0
 
 *SPEC recommadation: 
-(1) Write size = IU size 
+(1) Write size = IU size
+(2) Recommended Pre-conditioning Steps
+    Step1:
+    100% Sequential Write
+    Mixed R/W Sequential (Read/Write)
+    100% Sequential Read
+    Step2:
+    Format the Drive
+    Perform Sequential Write (128KB block size, Queue Depth 256, 1x capacity)
 
 Random Read/Write IOPS
 (1) Random Write: 4KB/16KB
