@@ -1,0 +1,52 @@
+{
+    "_comments": [
+        "Both the test cases and preconditioning parameters are based on the Solidigm D5-P5336 Product Specification, February 2025, Revision 007.",
+        "The execution sequence of Sequential Write > Sequential Read > Random Write > Random 70% Read / 30% Write > Random Read is based on the internal test team's script.",
+        "Setting runtime to 900 sec is recommended by the product specification.",
+        "20250314 Quanta is concerned about using runtime = 28800 sec instead of a loop condition."
+
+    ],
+
+    "P5336-U2-PCIE4-61TB": {
+        "test_cases": [
+            {"name": "128KB_Seq_Write", "rw": "write", "bs": "128k", "iodepth": 256, "numjobs": 1, "precondition": true},
+            {"name": "128KB_Seq_Read", "rw": "read", "bs": "128k", "iodepth": 256, "numjobs": 1},
+            {"name": "16KB_Random_Write", "rw": "randwrite", "bs": "16k", "iodepth": 32, "numjobs": 8, "precondition": true},
+            {"name": "16KB_RandRW_70R_30W", "rw": "randrw", "bs": "16k", "iodepth": 32, "numjobs": 8, "rwmixread": 70, "precondition": true},
+            {"name": "16KB_Random_Read", "rw": "randread", "bs": "16k", "iodepth": 32, "numjobs": 8},
+            {"name": "4KB_Random_Write", "rw": "randwrite", "bs": "4k", "iodepth": 32, "numjobs": 8, "precondition": true},
+            {"name": "4KB_Random_Read", "rw": "randread", "bs": "4k", "iodepth": 32, "numjobs": 8},
+            {"name": "4KB_RandRW_70R_30W", "rw": "randrw", "bs": "4k", "iodepth": 32, "numjobs": 8, "rwmixread": 70, "precondition": true}
+        ],
+        "precondition": {
+            "write": {"bs": "128k", "iodepth": 256, "numjobs": 1, "rw": "write", "mode": "loop", "value": 1, "size": "100%","fill_device": 1},
+            "read": {"bs": "128k", "iodepth": 256, "numjobs": 1, "rw": "read", "mode": "loop", "value": 1,"size": "100%", "fill_device": 1},
+            "randrw": {"bs": "4k", "iodepth": 64, "numjobs": 4, "rw": "randrw", "mode": "runtime", "value": 28800, "size": "100%","rwmixread": 70,"verify": "meta","verify_pattern": "0xdeadbeef"},
+            "randwrite": {"bs": "4k", "iodepth": 64, "numjobs": 4, "rw": "randwrite", "mode": "runtime", "value": 28800,"size": "100%","verify": "meta","verify_pattern": "0xdeadbeef"},
+            "randread": {"bs": "4k", "iodepth": 64, "numjobs": 4, "rw": "randread", "mode": "runtime", "value": 28800,"size": "100%","verify": "meta","verify_pattern": "0xdeadbeef"}
+        }
+    },
+
+    "P5336-U2-PCIE4-122TB": {
+        "test_cases": [
+            {"name": "128KB_Seq_Write", "rw": "write", "bs": "128k", "iodepth": 256, "numjobs": 1, "precondition": true},
+            {"name": "128KB_Seq_Read", "rw": "read", "bs": "128k", "iodepth": 256, "numjobs": 1},
+            {"name": "32KB_Random_Write", "rw": "randwrite", "bs": "32k", "iodepth": 32, "numjobs": 8, "precondition": true},
+            {"name": "32KB_RandRW_70R_30W", "rw": "randrw", "bs": "32k", "iodepth": 32, "numjobs": 8, "rwmixread": 70, "precondition": true},
+            {"name": "32KB_Random_Read", "rw": "randread", "bs": "32k", "iodepth": 32, "numjobs": 8},
+            {"name": "16KB_Random_Write", "rw": "randwrite", "bs": "16k", "iodepth": 32, "numjobs": 8, "precondition": true},
+            {"name": "16KB_RandRW_70R_30W", "rw": "randrw", "bs": "16k", "iodepth": 32, "numjobs": 8, "rwmixread": 70, "precondition": true},
+            {"name": "16KB_Random_Read", "rw": "randread", "bs": "16k", "iodepth": 32, "numjobs": 8},
+            {"name": "4KB_Random_Write", "rw": "randwrite", "bs": "4k", "iodepth": 32, "numjobs": 8, "precondition": true},
+            {"name": "4KB_Random_Read", "rw": "randread", "bs": "4k", "iodepth": 32, "numjobs": 8},
+            {"name": "4KB_RandRW_70R_30W", "rw": "randrw", "bs": "4k", "iodepth": 32, "numjobs": 8, "rwmixread": 70, "precondition": true}
+        ],
+        "precondition": {
+            "write": {"bs": "128k", "iodepth": 256, "numjobs": 1, "rw": "write", "mode": "loop", "value": 1, "size": "100%","fill_device": 1},
+            "read": {"bs": "128k", "iodepth": 256, "numjobs": 1, "rw": "read", "mode": "loop", "value": 1,"size": "100%", "fill_device": 1},
+            "randrw": {"bs": "4k", "iodepth": 64, "numjobs": 4, "rw": "randrw", "mode": "runtime", "value": 28800, "size": "100%","rwmixread": 70,"verify": "meta","verify_pattern": "0xdeadbeef"},
+            "randwrite": {"bs": "4k", "iodepth": 64, "numjobs": 4, "rw": "randwrite", "mode": "runtime", "value": 28800,"size": "100%","verify": "meta","verify_pattern": "0xdeadbeef"},
+            "randread": {"bs": "4k", "iodepth": 64, "numjobs": 4, "rw": "randread", "mode": "runtime", "value": 28800,"size": "100%","verify": "meta","verify_pattern": "0xdeadbeef"}
+        }
+    }
+}
