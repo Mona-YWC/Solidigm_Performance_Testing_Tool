@@ -17,8 +17,25 @@
             {"name": "4KB_RandRW_70R_30W", "rw": "randrw", "bs": "4k", "iodepth": 64, "numjobs": 8, "rwmixread": 70, "precondition": true}
         ],
         "precondition": {
-            "write": {"bs": "128k","iodepth": 256,"numjobs": 1,"rw": "write","mode": "runtime","value": 7200,"size": "100%","cpus_allowed": "0","verify": "meta","verify_pattern": "0xdeadbeef"},
-            "randwrite": {"bs": "16k","iodepth": 64,"numjobs": 4,"rw": "randwrite","mode": "runtime","value": 14400,"size": "100%","cpus_allowed": "0-3","verify": "meta","verify_pattern": "0xdeadbeef"}
+            "write": {"bs": "128k","iodepth": 256,"numjobs": 1,"rw": "write","mode": "runtime","value": 7200,"size": "100%","cpus_allowed": "0", "fill_device": 1},
+            "randwrite": {"bs": "16k","iodepth": 64,"numjobs": 4,"rw": "randwrite","mode": "runtime","value": 14400,"size": "100%","cpus_allowed": "0-3", "fill_device": 1}
         }
-        }
+        },
+
+    "P5520-U2-PCIE4-3.84TB": {
+        "test_cases": [
+            {"name": "128KB_Seq_Write", "rw": "write", "bs": "128k", "iodepth": 256, "numjobs": 1,"ioengine": "io_uring","precondition": true},
+            {"name": "128KB_Seq_Read", "rw": "read", "bs": "128k", "iodepth": 256, "numjobs": 1,"ioengine": "io_uring"},
+            {"name": "8KB_Random_Write", "rw": "randwrite", "bs": "8k", "iodepth": 64, "numjobs": 4,"ioengine": "io_uring", "precondition": true},
+            {"name": "8KB_RandRW_70R_30W", "rw": "randrw", "bs": "8k", "iodepth": 64, "numjobs": 4, "rwmixread": 70,"ioengine": "io_uring", "precondition": true},
+            {"name": "8KB_Random_Read", "rw": "randread", "bs": "8k", "iodepth": 32, "numjobs": 8,"ioengine": "io_uring"},
+            {"name": "4KB_Random_Write", "rw": "randwrite", "bs": "4k", "iodepth": 64, "numjobs": 4,"ioengine": "io_uring","precondition": true},
+            {"name": "4KB_Random_Read", "rw": "randread", "bs": "4k", "iodepth": 32, "numjobs": 8,"ioengine": "io_uring"},
+            {"name": "4KB_RandRW_70R_30W", "rw": "randrw", "bs": "4k", "iodepth": 64, "numjobs": 4, "rwmixread": 70,"ioengine": "io_uring","precondition": true}
+            ],
+            "precondition": {
+                "write": {"bs": "128k","iodepth": 128,"numjobs": 1,"rw": "write","mode": "runtime","value": 7200,"size": "100%","cpus_allowed": "0","ioengine": "io_uring", "fill_device": 1},
+                "randwrite": {"bs": "16k","iodepth": 64,"numjobs": 4,"rw": "randwrite","mode": "runtime","value": 7200,"size": "100%","cpus_allowed": "0-17","ioengine": "io_uring", "fill_device": 1}
+            }
+            }
 }
