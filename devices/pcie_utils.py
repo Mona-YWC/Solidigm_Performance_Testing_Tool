@@ -49,9 +49,10 @@ def setpci_for_devices(devices):
             logging.error(f"❌ 無法為 {device} ({bdf}) 設定 PCIe 參數，錯誤：{e}")
 
 
-def set_interrupt_Coalescing(devices, output_file="interrupt_coalescing.txt"):
-    output_path = os.path.join(os.getcwd(), output_file)
-    
+def set_interrupt_Coalescing(devices, log_file):
+    """
+    設定 NVMe Interrupt Coalescing，並將 Log 存入 `log_file`
+    """
     # 先詢問使用者是否要啟用 Interrupt Coalescing
     enable_ic = input("Do you want to enable Interrupt Coalescing? (y/n): ").strip().lower()
     if enable_ic != 'y':
@@ -77,44 +78,42 @@ def set_interrupt_Coalescing(devices, output_file="interrupt_coalescing.txt"):
     else:
         threshold = int(threshold)
     
-    with open(output_path, "a") as log_file:
-        for device in devices:
-            try:
-                # 去除設備名稱中的多餘空格或不可見字符
-                device = device.strip()
-                
-                # 使用正則表達式提取基礎設備名稱（僅保留 nvmeX）
-                match = re.match(r"^(nvme\d+)", device)
-                if match:
-                    device_base = match.group(1)
-                else:
-                    logging.error(f"Failed to extract base device name from: {device}")
-                    continue
-                
-                # 設定 Interrupt Coalescing 參數
-                set_feature_Interrupt_Coalescing = (
-                    f"nvme set-feature /dev/{device_base} -feature-id 0x08 --value 0x01{threshold:02X}"
-                )
-                
-                # 取得設定值來確認是否正確
-                get_feature_Interrupt_Coalescing = (
-                    f"nvme get-feature /dev/{device_base} -feature-id 0x08"
-                )
-                
-                logging.info(f"Setting interrupt coalescing for /dev/{device_base} with threshold={threshold}")
-                subprocess.run(set_feature_Interrupt_Coalescing, shell=True, capture_output=True, text=True, check=True)
-                result = subprocess.run(get_feature_Interrupt_Coalescing, shell=True, capture_output=True, text=True, check=True)
-                
-                final_setting = result.stdout.strip()
-                
-                # 記錄結果到日誌與檔案
-                logging.info(f"Interrupt coalescing set successfully for /dev/{device_base}: {final_setting}")
-                log_file.write(f"{device_base}: {final_setting}\n")
-                print(f"{device_base} interrupt coalescing setting: {final_setting}")
-                
-            except subprocess.CalledProcessError as e:
-                logging.error(f"Failed to set interrupt coalescing for /dev/{device_base}: {e}")
-                log_file.write(f"{device_base}: Failed to set interrupt coalescing\n")
+    for device in devices:
+        try:
+            # 去除設備名稱中的多餘空格或不可見字符
+            device = device.strip()
+            
+            # 使用正則表達式提取基礎設備名稱（僅保留 nvmeX）
+            match = re.match(r"^(nvme\d+)", device)
+            if match:
+                device_base = match.group(1)
+            else:
+                logging.error(f"Failed to extract base device name from: {device}")
+                continue
+            
+            # 設定 Interrupt Coalescing 參數
+            set_feature_Interrupt_Coalescing = (
+                f"nvme set-feature /dev/{device_base} -feature-id 0x08 --value 0x01{threshold:02X}"
+            )
+            
+            # 取得設定值來確認是否正確
+            get_feature_Interrupt_Coalescing = (
+                f"nvme get-feature /dev/{device_base} -feature-id 0x08"
+            )
+            
+            logging.info(f"Setting interrupt coalescing for /dev/{device_base} with threshold={threshold}")
+            subprocess.run(set_feature_Interrupt_Coalescing, shell=True, capture_output=True, text=True, check=True)
+            result = subprocess.run(get_feature_Interrupt_Coalescing, shell=True, capture_output=True, text=True, check=True)
+            
+            final_setting = result.stdout.strip()
+            
+            # 記錄結果到 `log_file`
+            logging.info(f"Interrupt coalescing set successfully for /dev/{device_base}: {final_setting}")
+            print(f"{device_base} interrupt coalescing setting: {final_setting}")
+            
+        except subprocess.CalledProcessError as e:
+            logging.error(f"Failed to set interrupt coalescing for /dev/{device_base}: {e}")
+
 
 #裝置設定
 # 這一段是有問題的  因為他邏輯是要抓bdf 但是下面自己的都能抓 所以或許可以刪掉 3/23
@@ -275,8 +274,28 @@ def set_interrupt_Coalescing(devices, output_file="interrupt_coalescing.txt"):
         print("Skipping Interrupt Coalescing configuration.")
         return
     
+    # 過濾出 NVMe 裝置，排除 SATA
+    nvme_devices = []
+    for device in devices:
+        device = device.strip()
+        model_path = f"/sys/block/{device}/device/model"
+        if os.path.exists(model_path):
+            with open(model_path, "r") as f:
+                model_name = f.read().strip().lower()
+                if "nvme" in model_name:
+                    nvme_devices.append(device)
+                else:
+                    logging.info(f"Skipping {device} (not NVMe, model: {model_name})")
+        else:
+            logging.info(f"Skipping {device} (model information not available)")
+
+    # 若沒有 NVMe 裝置，則不執行設定
+    if not nvme_devices:
+        print("No NVMe devices found. Skipping Interrupt Coalescing configuration.")
+        return
+
     # 根據系統內的 NVMe 數量建議 threshold 值
-    num_nvme = len(devices)
+    num_nvme = len(nvme_devices)
     if num_nvme == 8:
         recommended_threshold = 3
     elif num_nvme in [12, 16]:
@@ -295,17 +314,14 @@ def set_interrupt_Coalescing(devices, output_file="interrupt_coalescing.txt"):
         threshold = int(threshold)
     
     with open(output_path, "a") as log_file:
-        for device in devices:
+        for device in nvme_devices:
             try:
-                # 去除設備名稱中的多餘空格或不可見字符
-                device = device.strip()
-                
-                # 使用正則表達式提取基礎設備名稱（僅保留 nvmeX）
+                # 確保裝置名稱正確（僅處理 nvmeX）
                 match = re.match(r"^(nvme\d+)", device)
                 if match:
                     device_base = match.group(1)
                 else:
-                    logging.error(f"Failed to extract base device name from: {device}")
+                    logging.error(f"Failed to extract NVMe base name from: {device}")
                     continue
                 
                 # 設定 Interrupt Coalescing 參數
@@ -332,5 +348,3 @@ def set_interrupt_Coalescing(devices, output_file="interrupt_coalescing.txt"):
             except subprocess.CalledProcessError as e:
                 logging.error(f"Failed to set interrupt coalescing for /dev/{device_base}: {e}")
                 log_file.write(f"{device_base}: Failed to set interrupt coalescing\n")
-
-
