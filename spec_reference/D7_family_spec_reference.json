@@ -1,0 +1,24 @@
+{
+    "P1010-U2": {
+        "Capacity": ["1.92TB", "3.84TB", "7.68TB", "15.36TB"],
+        "128KB Seq Read (MB/s)": [14500, 14500, 14500, 14500],
+        "128KB Seq Write (MB/s)": [4100, 8200, 9300, 9300],
+        "4KB Random Read (KIOPs)": [2350, 3100, 2800, 2750],
+        "4KB Random Mixed 70/30 RR/RW (KIOPs)": [335, 729, 880, 880],
+        "4KB Random Write (KIOPs)": [150, 315, 400, 380],
+        "8KB Random Read (KIOPs)": [1200, 1550, 1400, 1350],
+        "8KB Random Mixed 70/30 RR/RW (KIOPs)": [175, 364, 440, 440],
+        "8KB Random Write (KIOPs)": [75, 157, 180, 180]
+    },
+    "P1010-E3": {
+        "Capacity": ["1.6TB", "3.2TB", "6.4TB", "12.8TB"],
+        "128KB Seq Read (MB/s)": [14500, 14500, 14500, 14500],
+        "128KB Seq Write (MB/s)": [4100, 8200, 9300, 9300],
+        "4KB Random Read (KIOPs)": [2350, 3100, 2800, 2750],
+        "4KB Random Mixed 70/30 RR/RW (KIOPs)": [650, 1347, 1500, 1500],
+        "4KB Random Write (KIOPs)": [350, 716, 800, 800],
+        "8KB Random Read (KIOPs)": [1200, 1550, 1400, 1350],
+        "8KB Random Mixed 70/30 RR/RW (KIOPs)": [325, 673, 750, 750],
+        "8KB Random Write (KIOPs)": [174, 350, 400, 400]
+    }
+}
