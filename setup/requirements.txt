@@ -1,12 +1,11 @@
-numpy>=1.21.0,<2.0.0                                         # Supports newer features and avoids breaking changes
-openpyxl>=3.0.0,<4.0.0                                       # Supports modern Excel formats
-requests>=2.25.0,<3.0.0                                      # Stable and widely-used version
-psutil>=5.8.0,<6.0.0                                         # Supports the latest system performance features
-watchdog>=2.0.0,<3.0.0                                       # Provides stable file monitoring
-pandas>=1.5.0,<1.6.0                                         # Data manipulation and analysis
-pyodbc>=4.0.35                                               # ODBC database connectivity
-Jinja2>=3.0.0,<4.0.0                                         # Templating engine for rendering
-
-# Dash and its dependencies
-dash>=2.0.0,<3.0.0                                          # Web application framework for dashboards
-dash-bootstrap-components>=1.0.0,<2.0.0                     # UI components for Dash
+numpy>=1.21.0,<2.0.0                      # Supports newer features and avoids breaking changes
+openpyxl>=3.0.0,<4.0.0                    # Supports modern Excel formats
+requests>=2.25.0,<3.0.0                   # Stable and widely-used version
+psutil>=5.8.0,<6.0.0                      # Supports the latest system performance features
+watchdog>=2.0.0,<3.0.0                    # Provides stable file monitoring
+pandas>=1.5.0,<1.6.0                      # Data manipulation and analysis
+pyodbc>=4.0.35                            # ODBC database connectivity
+Jinja2>=3.0.0,<4.0.0                      # Templating engine for rendering
+dash>=2.0.0,<3.0.0                        # Web application framework for dashboards
+dash-bootstrap-components>=1.0.0,<2.0.0   # Bootstrap components for Dash
+matplotlib                                # For plotting precondition results
